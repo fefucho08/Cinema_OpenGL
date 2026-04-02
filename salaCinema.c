@@ -1,5 +1,6 @@
 #include <GL/freeglut.h>
 #include <stdbool.h>
+#include "models.h"
 
 static float fovAngle = 65.0f;
 static float fAspect = 1.0f;
@@ -7,137 +8,6 @@ static int rot = 0;
 static float posX = 0.0;
 static float posZ = 0.0;
 static float posY = 0.0;
-
-void createSeat() {
-    
-    glPushMatrix();
-        glColor3f(1.0, 0.0, 0.0);
-        // BRACO ESQUERDO
-        glPushMatrix();
-            glTranslatef(-1.5, 1.0, 0.0);
-            glPushMatrix();
-                glScalef(0.75, 2.0, 3.0);
-                glutSolidCube(1.0);
-            glPopMatrix();
-
-            glPushMatrix();
-                glTranslatef(0.0, 1.0, 1.5);
-                glRotatef(90, 1.0, 0.0, 0.0);
-                glutSolidCylinder(0.375, 2.0, 10.0, 1.0);
-            glPopMatrix();
-        glPopMatrix();
-
-        // BRACO ESQUERDO
-        glPushMatrix();
-            glTranslatef(1.5, 1.0, 0.0);
-            glPushMatrix();
-                glScalef(0.75, 2.0, 3.0);
-                glutSolidCube(1.0);
-            glPopMatrix();
-
-            glPushMatrix();
-                glTranslatef(0.0, 1.0, 1.5);
-                glRotatef(90, 1.0, 0.0, 0.0);
-                glutSolidCylinder(0.375, 2.0, 10.0, 1.0);
-            glPopMatrix();
-        glPopMatrix();
-
-        // ASSENTO
-        glColor3f(1.0, 1.0, 0.0);
-        glPushMatrix();
-            glTranslatef(0.0, 0.5, 0.0);
-            glScalef(2.5, 1, 2.0);
-            glutSolidCube(1.0);
-        glPopMatrix();
-        
-        // ENCOSTO
-        glColor3f(0.0, 0.0, 1.0);
-        glPushMatrix();
-            glTranslatef(0.0, 2.0, -1);
-            glScalef(2.5, 4.0, 1.0);
-            glutSolidCube(1.0);
-        glPopMatrix();
-
-    glPopMatrix();
-}
-
-void createRoom() {
-    // CHAO
-    glColor3f(0.3, 0.3, 0.3);
-    glPushMatrix();
-    glScalef(32.0, 0.6, 40.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    // TETO
-    glPushMatrix();
-    glTranslatef(0.0, 20.6, 0.0);
-    glScalef(32.0, 0.6, 40.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    // PAREDE LATERAL ESQUERDA
-    glColor3f(1.0, 0.0, 0.0);
-    glPushMatrix();
-    glTranslatef(-15.7, 10.3, 0.0);
-    glScalef(0.6, 20.0, 40.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    // PAREDE TELA
-    glColor3f(0.0, 1.0, 0.0);
-    glPushMatrix();
-    glTranslatef(0.3, 10.3, -20);
-    glScalef(31.4, 20.0, 0.6);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    // TELA
-    glColor3f(0.0, 0.0, 0.0);
-    glPushMatrix();
-    glTranslatef(0.0, 0.0, -19.55);
-    glScalef(1.0, 1.0, 0.3);
-
-    // BORDAS DA TELA
-    // borda inferior
-    glPushMatrix();
-    glTranslatef(0.0, 4.3, 0.0);
-    glScalef(24.0, 0.3, 1.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    //borda lateral esquerda
-    glPushMatrix();
-    glTranslatef(-11.85, 10.3, 0.0);
-    glScalef(0.3, 11.7, 1.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    // borda superior
-    glPushMatrix();
-    glTranslatef(0.15, 16, 0.0);
-    glScalef(23.7, 0.3, 1.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    // borda lateral direita;
-    glPushMatrix();
-    glTranslatef(11.85, 10.15, 0.0);
-    glScalef(0.3, 11.4, 1.0);
-    glutSolidCube(1.0);
-    glPopMatrix();
-    
-    // INTERIOR DA TELA
-
-    glColor3f(0.9, 0.9, 0.9);
-    glPushMatrix();
-    glTranslatef(0.0, 10.15, 0.0);
-    glScalef(23.4, 11.4, 0.5);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    glPopMatrix();
-}
 
 void setCameraValues() {
     glMatrixMode(GL_PROJECTION);
@@ -159,19 +29,15 @@ void display() {
 
     glColor3f(1.0, 0.0, 0.0);
 
-    // glPushMatrix();
-    // glRotatef(50, 0.0, 1.0, 0.0);
-    // glutSolidCube(1.0);
-    // glPopMatrix();
     createRoom();
-
 
     float seatX = -10;
     float seatZ = 0;
+    float seatY = 2.4;
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 6; j++) {
             glPushMatrix();
-            glTranslatef(seatX, 0.6, seatZ);
+            glTranslatef(seatX, 0.3 + seatY, seatZ);
             glRotatef(180, 0.0, 1.0, 0.0);
             createSeat();
             glPopMatrix();
@@ -179,7 +45,11 @@ void display() {
         }
         seatX = -10;
         seatZ += 6;
+        seatY += 1.2;
     }
+    glPushMatrix();
+    createLevels();
+    glPopMatrix();
 
     glPopMatrix();
     glutSwapBuffers();
