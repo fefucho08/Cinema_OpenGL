@@ -162,3 +162,60 @@ void createRoom() {
 
     glPopMatrix();
 }
+
+void createLights() {
+    glPushMatrix();
+    glTranslatef(0.0, 20.0, 0.0);
+    glColor3f(1.0, 1.0, 1.0);
+
+    float posX = -11;
+    float posZ = 15;
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 3; j++) {
+            glPushMatrix();
+            glTranslatef(posX, 0.0, posZ);
+            glRotatef(90.0, 1.0, 0.0, 0.0);
+            glutSolidTorus(0.2, 1.0, 10.0, 10.0);
+            glPopMatrix();
+            posX += 11;
+        }
+        posZ -= 10;
+        posX = -11;
+    }
+
+    glPopMatrix();
+}
+
+void createProjector() {
+    glPushMatrix();
+    
+        glColor3f(0.2, 0.2, 0.2);
+        glPushMatrix();
+            glRotatef(90, 1.0, 0.0, 0.0);
+            glutSolidCylinder(0.5, 2.0, 10.0, 1.0);
+        glPopMatrix();
+
+        glPushMatrix();
+        glTranslatef(0.0, -2.25, 0.0);
+        glRotatef(-10.0, 1.0, 0.0, 0.0);
+        
+            glPushMatrix();
+                glColor3f(0.6, 0.6, 0.6);
+                glScalef(2.5, 1.5, 3.0);
+                glutSolidCube(1.0);
+            glPopMatrix();
+
+            glColor3f(0.0, 0.0, 1.0);
+            glPushMatrix();
+                glTranslatef(0.0, 0.0, -1.6);
+                glColor3f(0.1, 0.1, 0.1);
+                glutSolidCylinder(0.5, 0.2, 10.0, 1.0);
+                glColor3f(0.9, 0.9, 0.9);
+                glTranslatef(0.0, 0.0, -0.1);
+                glutSolidCylinder(0.3, 0.2, 10.0, 1.0);
+            glPopMatrix();
+
+        glPopMatrix();
+
+    glPopMatrix();
+}

@@ -47,8 +47,14 @@ void display() {
         seatZ += 6;
         seatY += 1.2;
     }
-    glPushMatrix();
     createLevels();
+
+    createLights();
+    
+    glPushMatrix();
+    glTranslatef(0.0, 20.3, 11.0);
+    glScalef(0.6, 0.6, 0.6);
+    createProjector(); 
     glPopMatrix();
 
     glPopMatrix();
