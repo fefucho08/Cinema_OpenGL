@@ -18,6 +18,27 @@ void createLevels(){
     }
 }
 
+void createStepLights() {
+    float height = 1.2;
+    float posZ = -7.0;
+
+    for (int i = 0; i < 5; i++) {
+        float posX = -13.5;
+        for (int j = 0; j < 2; j++) {
+            glColor3f(1.0, 0.92, 0.6);
+            glPushMatrix();
+                glTranslatef(posX, height + 0.3, posZ + 2.9);
+                glScalef(1.8, 0.25, 0.25);
+                glutSolidCube(1.0);
+            glPopMatrix();
+            posX += 27.0;
+        }
+
+        posZ += 6.0;
+        height += 1.2;
+    }
+}
+
 void createSeat() {
         glColor3f(0.35, 0.05, 0.05);
         // BRACO ESQUERDO
@@ -84,6 +105,109 @@ void createSeat() {
                 glutSolidCylinder(0.5, 1.0, 10.0, 1.5);
             glPopMatrix();
         glPopMatrix();
+}
+
+//CAIXA DE SOM
+void createSpeaker(float xSide) {
+    // suporte
+    glColor3f(0.35, 0.35, 0.35);
+    glPushMatrix();
+        glTranslatef(xSide * 15.64, 0.0, 0.0);
+        glScalef(0.12, 1.0, 0.8);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // haste horizontal
+    glColor3f(0.45, 0.45, 0.45);
+    glPushMatrix();
+        glTranslatef(xSide * 15.1, 0.0, 0.0);
+        glScalef(1.7, 0.12, 0.12);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // corpo da caixa
+    glColor3f(0.1, 0.1, 0.1);
+    glPushMatrix();
+        glTranslatef(xSide * 14.5, 0.0, 0.0);
+        glScalef(1.0, 1.8, 1.1);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // grade frontal
+    glColor3f(0.22, 0.22, 0.22);
+    glPushMatrix();
+        glTranslatef(xSide * 13.98, 0.0, 0.0);
+        glScalef(0.06, 1.6, 0.95);
+        glutSolidCube(1.0);
+    glPopMatrix();
+}
+
+void createDoor() {
+    
+    float dx = 15.4;   
+    float dy = 5.5;    // metade da altura 
+    float dz = -14.0;   
+    float fw = 2.6;    
+    float gap = 0.10;   
+
+    // largura total do batente lateral 
+    float bw = 0.55;
+    float bt = 0.20;
+
+   
+    glColor3f(0.82, 0.82, 0.82);
+
+    // topo
+    glPushMatrix();
+        glTranslatef(dx, dy * 2.0 + bw * 0.5, dz);
+        glScalef(bt, bw, fw * 2.0 + gap + bw * 2.0);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // montante lateral z-
+    glPushMatrix();
+        glTranslatef(dx, dy, dz - fw - gap * 0.5 - bw * 0.5);
+        glScalef(bt, dy * 2.0, bw);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // montante lateral z+
+    glPushMatrix();
+        glTranslatef(dx, dy, dz + fw + gap * 0.5 + bw * 0.5);
+        glScalef(bt, dy * 2.0, bw);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // espaço do meio
+    glColor3f(0.15, 0.15, 0.15);
+    glPushMatrix();
+        glTranslatef(dx, dy, dz);
+        glScalef(bt, dy * 2.0, gap);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // === FOLHA ESQUERDA — cinza liso, sem paineis ===
+    glColor3f(0.78, 0.78, 0.78);
+    glPushMatrix();
+        glTranslatef(dx, dy, dz - fw * 0.5 - gap * 0.5f);
+        glScalef(bt * 0.8, dy * 2.0, fw);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // === FOLHA DIREITA — cinza liso, sem paineis ===
+    glPushMatrix();
+        glTranslatef(dx, dy, dz + fw * 0.5 + gap * 0.5);
+        glScalef(bt * 0.8, dy * 2.0, fw);
+        glutSolidCube(1.0);
+    glPopMatrix();
+
+    // === SOLEIRA (faixa escura na base) ===
+    glColor3f(0.35, 0.35, 0.35);
+    glPushMatrix();
+        glTranslatef(dx, 0.15, dz);
+        glScalef(bt, 0.30, fw * 2.0 + gap);
+        glutSolidCube(1.0);
+    glPopMatrix();
 }
 
 void createRoom() {

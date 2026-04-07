@@ -48,6 +48,24 @@ void display() {
         seatY += 1.2;
     }
     createLevels();
+    createStepLights();
+
+    createDoor();
+
+    float wall = 1.0;
+    for(int i = 0; i < 2; i++) {
+        float posZ = 0.0;
+        float posY = 15.0;
+        for(int j = 0; j < 4; j++) {
+            glPushMatrix();
+                glTranslatef(0.0, posY, posZ);
+                createSpeaker(wall);
+            glPopMatrix();
+            posZ += 6;
+            posY += 1.2;
+        }
+        wall = -wall;
+    }
 
     createLights();
     
