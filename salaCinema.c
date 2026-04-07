@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include "models.h"
 
-static float fovAngle = 65.0f;
+static float fovAngle = 80.0f;
 static float fAspect = 1.0f;
 static int rot = 0;
 static float posX = 0.0;
@@ -15,7 +15,7 @@ void setCameraValues() {
     gluPerspective(fovAngle, fAspect, 1.0, 100.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0.0 + posX, 20.0 + posY, 60.0 + posZ, 0.0 + posX, 0.0 + posY, 0.0 + posZ, 0.0, 1.0, 0.0);
+    gluLookAt(0.0 + posX, 12.0 + posY, 0.0 + posZ, 0.0 + posX, 12.0 + posY, -1.0 + posZ, 0.0, 1.0, 0.0);
 }
 
 void display() {
@@ -93,7 +93,7 @@ void keyboard(unsigned char key, int x, int y) {
                 fovAngle -= 2;
             break;
         case '-':
-            if(fovAngle < 65.0f)
+            if(fovAngle < 80.0f)
                 fovAngle += 2;
             break;
         case 'r':

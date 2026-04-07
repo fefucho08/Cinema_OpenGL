@@ -20,12 +20,12 @@ void createLevels(){
 
 void createStepLights() {
     float height = 1.2;
-    float posZ = -7.0;
+    float posZ = -13.0;
 
     for (int i = 0; i < 5; i++) {
         float posX = -13.5;
         for (int j = 0; j < 2; j++) {
-            glColor3f(1.0, 0.92, 0.6);
+            glColor3f(0.5, 0.5, 1.0);
             glPushMatrix();
                 glTranslatef(posX, height + 0.3, posZ + 2.9);
                 glScalef(1.8, 0.25, 0.25);
@@ -233,6 +233,13 @@ void createRoom() {
     glutSolidCube(1.0);
     glPopMatrix();
 
+    // PAREDE LATERAL DIREITA
+    glPushMatrix();
+    glTranslatef(15.7, 10.3, 0.0);
+    glScalef(0.6, 20.0, 40.0);
+    glutSolidCube(1.0);
+    glPopMatrix();
+
     // PAREDE TELA
     glPushMatrix();
     glTranslatef(0.3, 10.3, -20);
@@ -240,6 +247,13 @@ void createRoom() {
     glutSolidCube(1.0);
     glPopMatrix();
 
+    // PAREDE FUNDO
+    glPushMatrix();
+    glTranslatef(0.3, 10.3, 20);
+    glScalef(31.4, 20.0, 0.6);
+    glutSolidCube(1.0);
+    glPopMatrix();
+    
     // TELA
     glColor3f(0.0, 0.0, 0.0);
     glPushMatrix();
