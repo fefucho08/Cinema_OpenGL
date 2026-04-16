@@ -1,6 +1,14 @@
+// Felipe Ferreira Moreira 237124
+// Juliana da Costa Silva 241078
+
 #include <GL/freeglut.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include "image.h"
 #include "models.h"
+
+#define MOVIE_TEXTURE "shrek.sgi"
+
 
 static float fovAngle = 80.0f;
 static float fAspect = 1.0f;
@@ -8,6 +16,8 @@ static int rot = 0;
 static float posX = 0.0;
 static float posZ = 0.0;
 static float posY = 0.0;
+
+GLuint texture_screen;
 
 void setCameraValues() {
     glMatrixMode(GL_PROJECTION);
@@ -19,7 +29,7 @@ void setCameraValues() {
 }
 
 void display() {
-    
+
     /* rotacao da cena*/
     glPushMatrix();
     glRotatef((GLfloat) rot, 0.0, 1.0, 0.0);
@@ -68,11 +78,11 @@ void display() {
     }
 
     createLights();
-    
+
     glPushMatrix();
     glTranslatef(0.0, 20.3, 11.0);
     glScalef(0.6, 0.6, 0.6);
-    createProjector(); 
+    createProjector();
     glPopMatrix();
 
     glPopMatrix();
@@ -102,19 +112,19 @@ void keyboard(unsigned char key, int x, int y) {
         case 'R':
             rot = (rot-5) % 360;
             break;
-        case 'd': 
+        case 'd':
             posX += 1.0;
             break;
         case 'a':
             posX -= 1.0;
             break;
-        case 'w': 
+        case 'w':
             posZ -= 1.0;
             break;
         case 's':
             posZ += 1.0;
             break;
-        case 'q': 
+        case 'q':
             posY += 1.0;
             break;
         case 'e':
@@ -128,8 +138,39 @@ void keyboard(unsigned char key, int x, int y) {
     glutPostRedisplay();
 }
 
+void loadTextures(){
+    IMAGE *img;
+    GLenum gluerr;
+
+    /* textura do plano */
+    glGenTextures(1, &texture_screen);
+    glBindTexture(GL_TEXTURE_2D, texture_screen);
+
+    if(!(img=ImageLoad(MOVIE_TEXTURE))) {
+        fprintf(stderr,"Error reading a texture.\n");
+        exit(-1);
+    }
+
+    gluerr=gluBuild2DMipmaps(GL_TEXTURE_2D, 3,
+                 img->sizeX, img->sizeY,
+                 GL_RGB, GL_UNSIGNED_BYTE,
+                 (GLvoid *)(img->data));
+    if(gluerr){
+        fprintf(stderr,"GLULib%s\n",gluErrorString(gluerr));
+        exit(-1);
+    }
+
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+
+}
+
 void init() {
     glClearColor(1.0, 1.0, 1.0, 1.0);
+    loadTextures();
     glEnable(GL_DEPTH_TEST);
 }
 
