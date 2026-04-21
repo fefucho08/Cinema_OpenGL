@@ -1,6 +1,8 @@
 #include "models.h"
+#include <stdbool.h>
 
 extern GLuint texture_screen;
+extern bool screenOn;
 
 void createLevels(){
     float grayTone = 0.1;
@@ -292,31 +294,34 @@ void createRoom() {
 
     // INTERIOR DA TELA
 
-    GLfloat planotext[4][2]={
-        {0,0},
-        {+1,0},
-        {+1,+1},
-        {0,+1}
-    };
-
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, texture_screen);
-
-    glEnable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
-    glTexCoord2fv(planotext[0]);  glVertex3f(-11.7, 4.3,-0.2);
-    glTexCoord2fv(planotext[1]);  glVertex3f(11.7,4.3,-0.2);
-    glTexCoord2fv(planotext[2]);  glVertex3f(11.7,16,-0.2);
-    glTexCoord2fv(planotext[3]);  glVertex3f(-11.7,16,-0.2);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);
-
-    // glColor3f(0.9, 0.9, 0.9);
-    // glPushMatrix();
-    // glTranslatef(0.0, 10.15, 0.0);
-    // glScalef(23.4, 11.4, 0.5);
-    // glutSolidCube(1.0);
-    // glPopMatrix();
+    if(screenOn) {
+        GLfloat planotext[4][2]={
+            {0,0},
+            {+1,0},
+            {+1,+1},
+            {0,+1}
+        };
+    
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glBindTexture(GL_TEXTURE_2D, texture_screen);
+    
+        glEnable(GL_TEXTURE_2D);
+        glBegin(GL_QUADS);
+        glTexCoord2fv(planotext[0]);  glVertex3f(-11.7, 4.3,-0.2);
+        glTexCoord2fv(planotext[1]);  glVertex3f(11.7,4.3,-0.2);
+        glTexCoord2fv(planotext[2]);  glVertex3f(11.7,16,-0.2);
+        glTexCoord2fv(planotext[3]);  glVertex3f(-11.7,16,-0.2);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+    } else {
+        glColor3f(0.9, 0.9, 0.9);
+        glPushMatrix();
+        glTranslatef(0.0, 10.15, 0.0);
+        glScalef(23.4, 11.4, 0.5);
+        glutSolidCube(1.0);
+        glPopMatrix();
+    }
+    
 
     glPopMatrix();
 }

@@ -16,6 +16,7 @@ static int rot = 0;
 static float posX = 0.0;
 static float posZ = 0.0;
 static float posY = 0.0;
+bool screenOn = true;
 
 GLuint texture_screen;
 
@@ -36,8 +37,6 @@ void display() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-
-    glColor3f(1.0, 0.0, 0.0);
 
     createRoom();
 
@@ -129,6 +128,9 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'e':
             posY -= 1.0;
+            break;
+        case 'l':
+            screenOn = !screenOn;
             break;
         case 27:
             exit(0);

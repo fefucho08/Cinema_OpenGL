@@ -2,6 +2,7 @@
 #define MODELS_H
 
 #include <GL/freeglut.h>
+#include <stdbool.h>
 
 void createLevels();
 void createStepLights();
