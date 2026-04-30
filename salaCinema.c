@@ -9,16 +9,76 @@
 
 #define MOVIE_TEXTURE "shrek.sgi"
 
-
 static float fovAngle = 80.0f;
 static float fAspect = 1.0f;
 static int rot = 0;
 static float posX = 0.0;
 static float posZ = 0.0;
 static float posY = 0.0;
-bool screenOn = true;
+bool screenOn = false;
 
 GLuint texture_screen;
+
+void initLights() {
+    GLfloat cor_luz[]        = { 0.7, 0.7, 0.7, 1.0};
+    GLfloat cor_luz_amb[]    = { 0.2, 0.2, 0.2, 1.0};
+
+    GLfloat global_ambient[] = { 0.6, 0.6, 0.6, 1.0 };
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
+
+    // LUZES SEM FILME
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, cor_luz);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, cor_luz);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, cor_luz_amb);
+
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, cor_luz);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, cor_luz);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, cor_luz_amb);
+
+    // LUZES COM FILME
+
+    // feixe do projetor
+    GLfloat proj_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat proj_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat proj_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, proj_diffuse);
+    glLightfv(GL_LIGHT2, GL_SPECULAR, proj_specular);
+    glLightfv(GL_LIGHT2, GL_AMBIENT, proj_ambient);
+    
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 26.0);
+    glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 10.0);
+
+    // luzes escada
+    GLfloat cor_degrau[] = { 0.5, 0.5, 1.0, 1.0};
+    GLfloat cor_degrau_amb[] = { 0.0, 0.0, 0.0, 1.0 };
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, cor_degrau);
+    glLightfv(GL_LIGHT3, GL_SPECULAR, cor_degrau);
+    glLightfv(GL_LIGHT3, GL_AMBIENT, cor_degrau_amb);
+
+    glLightf(GL_LIGHT3, GL_CONSTANT_ATTENUATION, 1.0);
+    glLightf(GL_LIGHT3, GL_LINEAR_ATTENUATION, 0.4);
+    glLightf(GL_LIGHT3, GL_QUADRATIC_ATTENUATION, 0.02);
+
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+}
+
+void displayLights() {
+    GLfloat posicao_luz1[] = { 0.0, 19.0, 16.0, 1.0};
+    glLightfv(GL_LIGHT0, GL_POSITION, posicao_luz1);
+
+    GLfloat posicao_luz2[] = { 0.0, 19.0, -16.0, 1.0};
+    glLightfv(GL_LIGHT1, GL_POSITION, posicao_luz2);
+
+    GLfloat proj_pos[] = { 0.0, 20, 12.0, 1.0 };
+    glLightfv(GL_LIGHT2, GL_POSITION, proj_pos);
+    GLfloat proj_dir[] = { 0.0, -0.315, -0.949 };
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, proj_dir);
+
+    GLfloat posicao_degrau1[] = { 0.0, 0.5, 0.0, 1.0};
+    glLightfv(GL_LIGHT3, GL_POSITION, posicao_degrau1);
+}
 
 void setCameraValues() {
     glMatrixMode(GL_PROJECTION);
@@ -37,6 +97,8 @@ void display() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
+
+    displayLights();
 
     createRoom();
 
@@ -131,6 +193,16 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'l':
             screenOn = !screenOn;
+            if(screenOn){
+                glDisable(GL_LIGHT0); 
+                glDisable(GL_LIGHT1); 
+                glEnable(GL_LIGHT2);
+                // glEnable(GL_LIGHT3);
+            } else {
+                glEnable(GL_LIGHT0);
+                glEnable(GL_LIGHT1);
+                glDisable(GL_LIGHT2);
+            };
             break;
         case 27:
             exit(0);
@@ -174,6 +246,13 @@ void init() {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     loadTextures();
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    initLights();
+
+    glEnable(GL_AUTO_NORMAL);
+    glEnable(GL_NORMALIZE);
 }
 
 int main(int argc, char* argv[]) {
