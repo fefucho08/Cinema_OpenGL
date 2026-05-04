@@ -50,7 +50,7 @@ void initLights() {
     glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 10.0);
 
     // luzes escada
-    GLfloat cor_degrau[] = { 0.5, 0.5, 1.0, 1.0};
+    GLfloat cor_degrau[] = { 0.0, 0.0, 1.0, 1.0};
     GLfloat cor_degrau_amb[] = { 0.0, 0.0, 0.0, 1.0 };
     glLightfv(GL_LIGHT3, GL_DIFFUSE, cor_degrau);
     glLightfv(GL_LIGHT3, GL_SPECULAR, cor_degrau);
@@ -58,7 +58,15 @@ void initLights() {
 
     glLightf(GL_LIGHT3, GL_CONSTANT_ATTENUATION, 1.0);
     glLightf(GL_LIGHT3, GL_LINEAR_ATTENUATION, 0.4);
-    glLightf(GL_LIGHT3, GL_QUADRATIC_ATTENUATION, 0.02);
+    glLightf(GL_LIGHT3, GL_QUADRATIC_ATTENUATION, 0.08);
+
+     glLightfv(GL_LIGHT4, GL_DIFFUSE, cor_degrau);
+    glLightfv(GL_LIGHT4, GL_SPECULAR, cor_degrau);
+    glLightfv(GL_LIGHT4, GL_AMBIENT, cor_degrau_amb);
+
+    glLightf(GL_LIGHT4, GL_CONSTANT_ATTENUATION, 1.0);
+    glLightf(GL_LIGHT4, GL_LINEAR_ATTENUATION, 0.4);
+    glLightf(GL_LIGHT4, GL_QUADRATIC_ATTENUATION, 0.08);
 
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
@@ -76,8 +84,11 @@ void displayLights() {
     GLfloat proj_dir[] = { 0.0, -0.315, -0.949 };
     glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, proj_dir);
 
-    GLfloat posicao_degrau1[] = { 0.0, 0.5, 0.0, 1.0};
+    GLfloat posicao_degrau1[] = { -14.0, 1.0, -4.0, 1.0};
     glLightfv(GL_LIGHT3, GL_POSITION, posicao_degrau1);
+
+    GLfloat posicao_degrau2[] = { 14.0, 1.0, -4.0, 1.0};
+    glLightfv(GL_LIGHT4, GL_POSITION, posicao_degrau2);
 }
 
 void setCameraValues() {
@@ -197,11 +208,14 @@ void keyboard(unsigned char key, int x, int y) {
                 glDisable(GL_LIGHT0); 
                 glDisable(GL_LIGHT1); 
                 glEnable(GL_LIGHT2);
-                // glEnable(GL_LIGHT3);
+                glEnable(GL_LIGHT3);
+                glEnable(GL_LIGHT4);
             } else {
                 glEnable(GL_LIGHT0);
                 glEnable(GL_LIGHT1);
                 glDisable(GL_LIGHT2);
+                glDisable(GL_LIGHT3);
+                glDisable(GL_LIGHT4);
             };
             break;
         case 27:
