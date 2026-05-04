@@ -66,7 +66,7 @@ void createStepLights() {
 void createSeat() {
         GLfloat seat_diffuse[]    = { 0.37, 0.07, 0.07, 1.0 };
         GLfloat seat_specular[] = { 0.2, 0.2, 0.2, 0.2 };
-        GLfloat seat_shininess[]    = { 50.0 };
+        GLfloat seat_shininess[]    = { 100.0 };
 
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, seat_diffuse);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, seat_specular);
@@ -179,9 +179,9 @@ void createSpeaker(float xSide) {
     glPopMatrix();
 
     // corpo da caixa
-    GLfloat box_diffuse[]    = { 0.1, 0.1, 0.1, 1.0 };
+    GLfloat box_diffuse[]    = { 0.0, 0.0, 0.0, 1.0 };
     GLfloat box_specular[] = { 0.2, 0.2, 0.2, 0.2 };
-    GLfloat box_shininess[]    = { 50.0 };
+    GLfloat box_shininess[]    = { 100.0 };
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, box_diffuse);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, box_specular);

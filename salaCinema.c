@@ -20,20 +20,17 @@ bool screenOn = false;
 GLuint texture_screen;
 
 void initLights() {
-    GLfloat cor_luz[]        = { 0.7, 0.7, 0.7, 1.0};
-    GLfloat cor_luz_amb[]    = { 0.2, 0.2, 0.2, 1.0};
-
-    GLfloat global_ambient[] = { 0.6, 0.6, 0.6, 1.0 };
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
+    GLfloat light_color[]        = { 1.0, 1.0, 1.0, 1.0};
+    GLfloat light_color_amb[]    = { 0.2, 0.2, 0.2, 1.0};
 
     // LUZES SEM FILME
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, cor_luz);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, cor_luz);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, cor_luz_amb);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_color);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_color_amb);
 
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, cor_luz);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, cor_luz);
-    glLightfv(GL_LIGHT1, GL_AMBIENT, cor_luz_amb);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_color);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, light_color);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, light_color_amb);
 
     // LUZES COM FILME
 
@@ -50,19 +47,19 @@ void initLights() {
     glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 10.0);
 
     // luzes escada
-    GLfloat cor_degrau[] = { 0.0, 0.0, 1.0, 1.0};
-    GLfloat cor_degrau_amb[] = { 0.0, 0.0, 0.0, 1.0 };
-    glLightfv(GL_LIGHT3, GL_DIFFUSE, cor_degrau);
-    glLightfv(GL_LIGHT3, GL_SPECULAR, cor_degrau);
-    glLightfv(GL_LIGHT3, GL_AMBIENT, cor_degrau_amb);
+    GLfloat step_color[] = { 0.0, 0.0, 1.0, 1.0};
+    GLfloat step_color_amb[] = { 0.0, 0.0, 0.0, 1.0 };
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, step_color);
+    glLightfv(GL_LIGHT3, GL_SPECULAR, step_color);
+    glLightfv(GL_LIGHT3, GL_AMBIENT, step_color_amb);
 
     glLightf(GL_LIGHT3, GL_CONSTANT_ATTENUATION, 1.0);
     glLightf(GL_LIGHT3, GL_LINEAR_ATTENUATION, 0.4);
     glLightf(GL_LIGHT3, GL_QUADRATIC_ATTENUATION, 0.08);
 
-     glLightfv(GL_LIGHT4, GL_DIFFUSE, cor_degrau);
-    glLightfv(GL_LIGHT4, GL_SPECULAR, cor_degrau);
-    glLightfv(GL_LIGHT4, GL_AMBIENT, cor_degrau_amb);
+    glLightfv(GL_LIGHT4, GL_DIFFUSE, step_color);
+    glLightfv(GL_LIGHT4, GL_SPECULAR, step_color);
+    glLightfv(GL_LIGHT4, GL_AMBIENT, step_color_amb);
 
     glLightf(GL_LIGHT4, GL_CONSTANT_ATTENUATION, 1.0);
     glLightf(GL_LIGHT4, GL_LINEAR_ATTENUATION, 0.4);
@@ -73,22 +70,22 @@ void initLights() {
 }
 
 void displayLights() {
-    GLfloat posicao_luz1[] = { 0.0, 19.0, 16.0, 1.0};
-    glLightfv(GL_LIGHT0, GL_POSITION, posicao_luz1);
+    GLfloat ligh1_position[] = { 0.0, 19.0, 16.0, 1.0};
+    glLightfv(GL_LIGHT0, GL_POSITION, ligh1_position);
 
-    GLfloat posicao_luz2[] = { 0.0, 19.0, -16.0, 1.0};
-    glLightfv(GL_LIGHT1, GL_POSITION, posicao_luz2);
+    GLfloat light2_position[] = { 0.0, 19.0, -16.0, 1.0};
+    glLightfv(GL_LIGHT1, GL_POSITION, light2_position);
 
     GLfloat proj_pos[] = { 0.0, 20, 12.0, 1.0 };
     glLightfv(GL_LIGHT2, GL_POSITION, proj_pos);
     GLfloat proj_dir[] = { 0.0, -0.315, -0.949 };
     glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, proj_dir);
 
-    GLfloat posicao_degrau1[] = { -14.0, 1.0, -4.0, 1.0};
-    glLightfv(GL_LIGHT3, GL_POSITION, posicao_degrau1);
+    GLfloat step1_position[] = { -14.0, 1.0, -4.0, 1.0};
+    glLightfv(GL_LIGHT3, GL_POSITION, step1_position);
 
-    GLfloat posicao_degrau2[] = { 14.0, 1.0, -4.0, 1.0};
-    glLightfv(GL_LIGHT4, GL_POSITION, posicao_degrau2);
+    GLfloat step2_position[] = { 14.0, 1.0, -4.0, 1.0};
+    glLightfv(GL_LIGHT4, GL_POSITION, step2_position);
 }
 
 void setCameraValues() {
