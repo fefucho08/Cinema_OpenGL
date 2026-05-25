@@ -165,6 +165,68 @@ void createPerson() {
         glPopMatrix();
     glPopMatrix();
 
+    // perna direita
+    glPushMatrix();
+        glTranslatef(-0.375, -0.95, 0.5);
+        glColor3f(1.0, 0.0, 0.0);
+        // coxa
+        glPushMatrix();
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        // joelho
+        glPushMatrix();
+        glTranslatef(0.0, 0.0, 1.0);
+        glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+        
+        glColor3f(0.89, 0.69, 0.52);
+        //panturrilha
+        glPushMatrix();
+            glTranslatef(0.0, 0.0, 1.0);
+            glRotatef(90, 1.0, 0.0, 0.0);
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        glColor3f(0.0, 0.0, 0.0);
+        // pé
+        glPushMatrix();
+            glTranslatef(0.0, -1.0, 1.0);
+            glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+    glPopMatrix();
+    
+    // perna esquerda
+    glPushMatrix();
+        glTranslatef(0.375, -0.95, 0.5);
+        glColor3f(1.0, 0.0, 0.0);
+        // coxa
+        glPushMatrix();
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        // joelho
+        glPushMatrix();
+        glTranslatef(0.0, 0.0, 1.0);
+        glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+        
+        glColor3f(0.89, 0.69, 0.52);
+        //panturrilha
+        glPushMatrix();
+            glTranslatef(0.0, 0.0, 1.0);
+            glRotatef(90, 1.0, 0.0, 0.0);
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+        
+        glColor3f(0.0, 0.0, 0.0);
+        // pé
+        glPushMatrix();
+            glTranslatef(0.0, -1.0, 1.0);
+            glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+    glPopMatrix();
+
     glPopMatrix();
 }
 
