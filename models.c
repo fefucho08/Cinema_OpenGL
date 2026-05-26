@@ -8,6 +8,9 @@ extern GLuint texture_screen;
 extern bool screenOn;
 extern bool eating;
 
+int armDirection = 1;
+float armRotation = 0.0;
+
 void createLevels(){
     GLfloat color_diffuse[]    = { 0.3, 0.3, 0.3, 1.0 };
     GLfloat color_specular[] = { 0.2, 0.2, 0.2, 0.2 };
@@ -639,6 +642,24 @@ void createPopcornBucket() {
     glPopMatrix();
 }
 
+void animatePerson(int value) {
+    if(eating) {
+        if(armRotation >= 45.0 && armDirection > 0) {
+            armDirection = -1;
+        } else if(armRotation <= 0.0 && armDirection < 0) {
+            armDirection = 1;
+        }
+        
+        armRotation += 1.0 * armDirection;
+        
+        if(armRotation > 45.0) armRotation = 45.0;
+        if(armRotation < 0.0) armRotation = 0.0;
+
+        glutPostRedisplay();
+        glutTimerFunc(16, animatePerson, 1);
+    }
+}
+
 void createPerson() {
     GLfloat body_diffuse[]    = { 0.0, 0.0, 1.0, 1.0 };
     GLfloat body_specular[] = { 0.2, 0.2, 0.2, 0.2 };
@@ -673,7 +694,6 @@ void createPerson() {
     //braco direito
     glPushMatrix();
         glTranslatef(-0.90, 0.5, 0.0);
-        if(!eating) glRotatef(10, 1.0, 0.0, 0.0);
         
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, body_diffuse);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, body_specular);
@@ -697,7 +717,7 @@ void createPerson() {
 
         //antebraco
         glPushMatrix();
-            if(eating) glRotatef(45.0, 0.0, 0.0, 1.0);
+            glRotatef(armRotation, 0.0, 0.0, 1.0);
             glPushMatrix();
                 glTranslatef(0.0, 0.0, 1.0);
                 glRotatef(90.0, 0.0, 1.0, 0.0);

@@ -14,5 +14,6 @@ void createLights();
 void createProjector();
 void createPerson();
 void createPopcornBucket();
+void animatePerson(int value);
 
 #endif

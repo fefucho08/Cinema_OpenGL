@@ -7,6 +7,7 @@
 #include "image.h"
 #include "models.h"
 
+
 #define MOVIE_TEXTURE "shrek.sgi"
 
 static float fovAngle = 80.0f;
@@ -17,6 +18,13 @@ static float posZ = 0.0;
 static float posY = 0.0;
 bool screenOn = false;
 bool eating = false;
+
+bool seatOccupied[4][6] = {
+    {false, true, false, false, false, true},
+    {true, false, true, false, true, false},
+    {true, false, true, true, false, true},
+    {false, true, true, false, true, true},
+};
 
 GLuint texture_screen;
 
@@ -119,8 +127,10 @@ void display() {
             glPushMatrix();
             glTranslatef(seatX, 0.3 + seatY, seatZ);
             glRotatef(180, 0.0, 1.0, 0.0);
-            createPerson();
-            createPopcornBucket();
+            if(seatOccupied[i][j]) {
+                createPerson();
+                createPopcornBucket();
+            }
             createSeat();
             glPopMatrix();
             seatX += 4;
@@ -220,6 +230,9 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'p':
             eating = !eating;
+            if(eating) {
+                glutTimerFunc(16, animatePerson, 1);
+            }
             break;
         case 27:
             exit(0);
