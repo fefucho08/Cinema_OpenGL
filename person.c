@@ -80,6 +80,70 @@ void createSeat() {
         glPopMatrix();
 }
 
+void createBucket(float baseSize, float topSize, float height) {    
+    float bh = baseSize / 2.0;
+    float th = topSize / 2.0; 
+    
+    glBegin(GL_QUADS);
+    
+    glNormal3f(0.0, -1.0, 0.0);
+    glVertex3f(-bh, 0.0, -bh);
+    glVertex3f(bh, 0.0, -bh);
+    glVertex3f(bh, 0.0, bh);
+    glVertex3f(-bh, 0.0, bh);
+    
+    glNormal3f(0.0, 1.0, 0.0);
+    glVertex3f(-th, height, -th);
+    glVertex3f(-th, height, th);
+    glVertex3f(th, height, th);
+    glVertex3f(th, height, -th);
+    
+    glNormal3f(0.0, 0.0, 1.0);
+    glVertex3f(-bh, 0.0, bh);
+    glVertex3f(bh, 0.0, bh);
+    glVertex3f(th, height, th);
+    glVertex3f(-th, height, th);
+    
+    glNormal3f(0.0, 0.0, -1.0);
+    glVertex3f(bh, 0.0, -bh);
+    glVertex3f(-bh, 0.0, -bh);
+    glVertex3f(-th, height, -th);
+    glVertex3f(th, height, -th);
+    
+    glNormal3f(1.0, 0.0, 0.0);
+    glVertex3f(bh, 0.0, -bh);
+    glVertex3f(bh, 0.0, bh);
+    glVertex3f(th, height, th);
+    glVertex3f(th, height, -th);
+    
+    glNormal3f(-1.0, 0.0, 0.0);
+    glVertex3f(-bh, 0.0, bh);
+    glVertex3f(-bh, 0.0, -bh);
+    glVertex3f(-th, height, -th);
+    glVertex3f(-th, height, th);
+    
+    glEnd();
+}
+
+void createPopcornBucket() {
+    glPushMatrix();
+    glTranslatef(0.25, 1.60, 1.0);
+    
+    glPushMatrix();
+        glColor3f(1.0, 0.0, 0.0);
+        createBucket(0.6, 0.8, 0.75);
+    glPopMatrix();
+    
+    glPushMatrix();
+        glColor3f(1.0, 1.0, 0.0);
+        glTranslatef(0.0, 0.65, 0.0);
+        glScalef(0.385, 0.35, 0.385);
+        glutSolidSphere(1.0, 10.0, 10.0);
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+
 void createPerson() {
     glColor3f(0.0, 0.0, 1.0);
     glPushMatrix();
@@ -168,7 +232,7 @@ void createPerson() {
     // perna direita
     glPushMatrix();
         glTranslatef(-0.375, -0.95, 0.5);
-        glColor3f(1.0, 0.0, 0.0);
+        glColor3f(1.0, 0.0, 1.0);
         // coxa
         glPushMatrix();
             glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
@@ -199,7 +263,7 @@ void createPerson() {
     // perna esquerda
     glPushMatrix();
         glTranslatef(0.375, -0.95, 0.5);
-        glColor3f(1.0, 0.0, 0.0);
+        glColor3f(1.0, 0.0, 1.0);
         // coxa
         glPushMatrix();
             glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
@@ -253,6 +317,9 @@ void display() {
     // Pessoa com cor azul
     glColor3f(0.2, 0.2, 0.8);
     createPerson();
+    
+    // Popcorn bucket held by person
+    createPopcornBucket();
 
     glutSwapBuffers();
 }
