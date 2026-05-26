@@ -12,5 +12,7 @@ void createDoor();
 void createRoom();
 void createLights();
 void createProjector();
+void createPerson();
+void createPopcornBucket();
 
 #endif

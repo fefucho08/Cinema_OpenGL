@@ -6,6 +6,7 @@
 
 extern GLuint texture_screen;
 extern bool screenOn;
+extern bool eating;
 
 void createLevels(){
     GLfloat color_diffuse[]    = { 0.3, 0.3, 0.3, 1.0 };
@@ -558,6 +559,288 @@ void createProjector() {
 
         GLfloat no_emission[] = { 0.0, 0.0, 0.0, 1.0 };
         glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, no_emission);
+
+    glPopMatrix();
+}
+
+void createBucket(float baseSize, float topSize, float height) {    
+    float bh = baseSize / 2.0;
+    float th = topSize / 2.0; 
+    
+    glBegin(GL_QUADS);
+    
+    glNormal3f(0.0, -1.0, 0.0);
+    glVertex3f(-bh, 0.0, -bh);
+    glVertex3f(bh, 0.0, -bh);
+    glVertex3f(bh, 0.0, bh);
+    glVertex3f(-bh, 0.0, bh);
+    
+    glNormal3f(0.0, 1.0, 0.0);
+    glVertex3f(-th, height, -th);
+    glVertex3f(-th, height, th);
+    glVertex3f(th, height, th);
+    glVertex3f(th, height, -th);
+    
+    glNormal3f(0.0, 0.0, 1.0);
+    glVertex3f(-bh, 0.0, bh);
+    glVertex3f(bh, 0.0, bh);
+    glVertex3f(th, height, th);
+    glVertex3f(-th, height, th);
+    
+    glNormal3f(0.0, 0.0, -1.0);
+    glVertex3f(bh, 0.0, -bh);
+    glVertex3f(-bh, 0.0, -bh);
+    glVertex3f(-th, height, -th);
+    glVertex3f(th, height, -th);
+    
+    glNormal3f(1.0, 0.0, 0.0);
+    glVertex3f(bh, 0.0, -bh);
+    glVertex3f(bh, 0.0, bh);
+    glVertex3f(th, height, th);
+    glVertex3f(th, height, -th);
+    
+    glNormal3f(-1.0, 0.0, 0.0);
+    glVertex3f(-bh, 0.0, bh);
+    glVertex3f(-bh, 0.0, -bh);
+    glVertex3f(-th, height, -th);
+    glVertex3f(-th, height, th);
+    
+    glEnd();
+}
+
+void createPopcornBucket() {
+    glPushMatrix();
+    glTranslatef(0.25, 1.60, 1.0);
+    
+    glPushMatrix();
+        GLfloat bucket_diffuse[]    = { 1.0, 0.0, 0.0, 1.0 };
+        GLfloat bucket_specular[] = { 0.2, 0.2, 0.2, 0.2 };
+        GLfloat bucket_shininess[]    = { 50.0 };
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, bucket_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, bucket_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, bucket_shininess);
+        createBucket(0.6, 0.8, 0.75);
+    glPopMatrix();
+    
+    glPushMatrix();
+        GLfloat popcorn_diffuse[]    = { 1.0, 1.0, 0.0, 1.0 };
+        GLfloat popcorn_specular[] = { 0.2, 0.2, 0.2, 0.2 };
+        GLfloat popcorn_shininess[]    = { 50.0 };
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, popcorn_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, popcorn_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, popcorn_shininess);
+        glTranslatef(0.0, 0.65, 0.0);
+        glScalef(0.385, 0.35, 0.385);
+        glutSolidSphere(1.0, 10.0, 10.0);
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+
+void createPerson() {
+    GLfloat body_diffuse[]    = { 0.0, 0.0, 1.0, 1.0 };
+    GLfloat body_specular[] = { 0.2, 0.2, 0.2, 0.2 };
+    GLfloat body_shininess[]    = { 50.0 };
+    
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, body_diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, body_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, body_shininess);
+    
+    glPushMatrix();
+    glTranslatef(0.0, 2.25, 0.0);
+    // tronco
+    glPushMatrix();
+        glScalef(1.5, 2.5, 1.0);
+        glutSolidCube(1.0);
+    glPopMatrix();
+    
+    //cabeca
+    GLfloat skin_diffuse[]    = { 0.89, 0.69, 0.52, 1.0 };
+    GLfloat skin_specular[] = { 0.2, 0.2, 0.2, 0.2 };
+    GLfloat skin_shininess[]    = { 50.0 };
+    
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, skin_diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, skin_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, skin_shininess);
+    
+    glPushMatrix();
+        glTranslatef(0.0, 2.10, 0.0);
+        glutSolidSphere(1.0, 10.0, 10.0);
+    glPopMatrix();
+
+    //braco direito
+    glPushMatrix();
+        glTranslatef(-0.90, 0.5, 0.0);
+        if(!eating) glRotatef(10, 1.0, 0.0, 0.0);
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, body_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, body_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, body_shininess);
+        
+        //biceps
+        glPushMatrix();
+            glutSolidSphere(0.25, 10.0, 10.0);
+            glutSolidCylinder(0.25, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, skin_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, skin_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, skin_shininess);
+        
+        // articulacao
+        glPushMatrix();
+            glTranslatef(0.0, 0.0, 1.0);
+            glutSolidSphere(0.25, 10.0, 10.0);
+        glPopMatrix();
+
+        //antebraco
+        glPushMatrix();
+            if(eating) glRotatef(45.0, 0.0, 0.0, 1.0);
+            glPushMatrix();
+                glTranslatef(0.0, 0.0, 1.0);
+                glRotatef(90.0, 0.0, 1.0, 0.0);
+                glutSolidCylinder(0.25, 1.0, 10.0, 1.0);
+            glPopMatrix();
+
+            glPushMatrix();
+                glTranslatef(1.0, 0.0, 1.0);
+                glutSolidSphere(0.25, 10.0, 10.0);
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+
+    //braco esquerdo
+    glPushMatrix();
+        glTranslatef(0.90, 0.5, 0.0);
+        glRotatef(-10, 1.0, 0.0, 0.0);
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, body_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, body_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, body_shininess);
+        
+        //biceps
+        glPushMatrix();
+            glRotatef(90, 1.0, 0.0, 0.0);
+            glutSolidSphere(0.25, 10.0, 10.0);
+            glutSolidCylinder(0.25, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, skin_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, skin_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, skin_shininess);
+        
+        // articulacao
+        glPushMatrix();
+            glTranslatef(0.0, -1.0, 0.0);
+            glutSolidSphere(0.25, 10.0, 10.0);
+        glPopMatrix();
+
+        //antebraco
+        glPushMatrix();
+            glRotatef(-15.0, 0.0, 1.0, 0.0);
+            glPushMatrix();
+                glTranslatef(0.0, -1.0, 0.0);
+                glutSolidCylinder(0.25, 1.0, 10.0, 1.0);
+            glPopMatrix();
+
+            glPushMatrix();
+                glTranslatef(0.0, -1.0, 1.0);
+                glutSolidSphere(0.25, 10.0, 10.0);
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+
+    // perna direita
+    glPushMatrix();
+        glTranslatef(-0.375, -0.95, 0.5);
+        
+        GLfloat leg_diffuse[]    = { 1.0, 0.0, 1.0, 1.0 };
+        GLfloat leg_specular[] = { 0.2, 0.2, 0.2, 0.2 };
+        GLfloat leg_shininess[]    = { 50.0 };
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, leg_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, leg_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, leg_shininess);
+        
+        // coxa
+        glPushMatrix();
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        // joelho
+        glPushMatrix();
+        glTranslatef(0.0, 0.0, 1.0);
+        glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, skin_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, skin_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, skin_shininess);
+        
+        //panturrilha
+        glPushMatrix();
+            glTranslatef(0.0, 0.0, 1.0);
+            glRotatef(90, 1.0, 0.0, 0.0);
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        GLfloat foot_diffuse[]    = { 0.0, 0.0, 0.0, 1.0 };
+        GLfloat foot_specular[] = { 0.2, 0.2, 0.2, 0.2 };
+        GLfloat foot_shininess[]    = { 50.0 };
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, foot_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, foot_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, foot_shininess);
+        
+        // pé
+        glPushMatrix();
+            glTranslatef(0.0, -1.0, 1.0);
+            glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+    glPopMatrix();
+    
+    // perna esquerda
+    glPushMatrix();
+        glTranslatef(0.375, -0.95, 0.5);
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, leg_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, leg_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, leg_shininess);
+        
+        // coxa
+        glPushMatrix();
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+
+        // joelho
+        glPushMatrix();
+        glTranslatef(0.0, 0.0, 1.0);
+        glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, skin_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, skin_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, skin_shininess);
+        
+        //panturrilha
+        glPushMatrix();
+            glTranslatef(0.0, 0.0, 1.0);
+            glRotatef(90, 1.0, 0.0, 0.0);
+            glutSolidCylinder(0.375, 1.0, 10.0, 1.0);
+        glPopMatrix();
+        
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, foot_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, foot_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, foot_shininess);
+        
+        // pé
+        glPushMatrix();
+            glTranslatef(0.0, -1.0, 1.0);
+            glutSolidSphere(0.375, 10.0, 10.0);
+        glPopMatrix();
+    glPopMatrix();
 
     glPopMatrix();
 }

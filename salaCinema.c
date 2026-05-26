@@ -16,6 +16,7 @@ static float posX = 0.0;
 static float posZ = 0.0;
 static float posY = 0.0;
 bool screenOn = false;
+bool eating = false;
 
 GLuint texture_screen;
 
@@ -118,6 +119,8 @@ void display() {
             glPushMatrix();
             glTranslatef(seatX, 0.3 + seatY, seatZ);
             glRotatef(180, 0.0, 1.0, 0.0);
+            createPerson();
+            createPopcornBucket();
             createSeat();
             glPopMatrix();
             seatX += 4;
@@ -214,6 +217,9 @@ void keyboard(unsigned char key, int x, int y) {
                 glDisable(GL_LIGHT3);
                 glDisable(GL_LIGHT4);
             };
+            break;
+        case 'p':
+            eating = !eating;
             break;
         case 27:
             exit(0);
