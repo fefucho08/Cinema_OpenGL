@@ -23,11 +23,17 @@ bool drinking = false;
 float lightTransition = 0.0f;
 bool lightTransitioning = false;
 
-bool seatOccupied[4][6] = {
-    {false, true, false, false, false, true},
-    {true, false, true, false, true, false},
-    {true, false, true, true, false, true},
-    {false, true, true, false, true, true},
+typedef enum {
+    POPCORN,
+    SODA,
+    FREE
+} seatState;
+
+seatState seatOccupied[4][6] = {
+    {FREE, SODA, FREE, FREE, FREE, POPCORN},
+    {POPCORN, FREE, POPCORN, FREE, POPCORN, FREE},
+    {SODA, FREE, POPCORN, POPCORN, FREE, SODA},
+    {FREE, SODA, SODA, FREE, POPCORN, SODA},
 };
 
 GLuint texture_screen;
@@ -184,10 +190,9 @@ void display() {
             glPushMatrix();
             glTranslatef(seatX, 0.3 + seatY, seatZ);
             glRotatef(180, 0.0, 1.0, 0.0);
-            if(seatOccupied[i][j]) {
+            if(seatOccupied[i][j] == POPCORN) {
                 createPopcornPerson();
-            }
-            if(i == 1 && j == 1) {
+            } else if(seatOccupied[i][j] == SODA) {
                 createSodaPerson();
             }
             createSeat();
