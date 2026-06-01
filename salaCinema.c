@@ -20,6 +20,9 @@ bool screenOn = false;
 bool eating = false;
 bool drinking = false;
 
+float lightTransition = 0.0f;
+bool lightTransitioning = false;
+
 bool seatOccupied[4][6] = {
     {false, true, false, false, false, true},
     {true, false, true, false, true, false},
@@ -77,19 +80,72 @@ void initLights() {
 
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+    glEnable(GL_LIGHT4);
+}
+
+void animateLights(int value) {
+    float target = screenOn ? 1.0f : 0.0f;
+    float step = 0.02f;
+
+    if(lightTransition < target) {
+        lightTransition += step;
+        if(lightTransition >= target) {
+            lightTransition = target;
+            lightTransitioning = false;
+        }
+    } else if(lightTransition > target) {
+        lightTransition -= step;
+        if(lightTransition <= target) {
+            lightTransition = target;
+            lightTransitioning = false;
+        }
+    } else {
+        lightTransitioning = false;
+    }
+
+    glutPostRedisplay();
+    if(lightTransitioning) {
+        glutTimerFunc(16, animateLights, 0);
+    }
 }
 
 void displayLights() {
+    float roomFactor = 1.0f - lightTransition;
+    float movieFactor = lightTransition;
+
+    GLfloat light_color[] = { roomFactor, roomFactor, roomFactor, 1.0 };
+    GLfloat light_color_amb[] = { 0.2f * roomFactor, 0.2f * roomFactor, 0.2f * roomFactor, 1.0 };
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_color);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_color_amb);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_color);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, light_color);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, light_color_amb);
+
     GLfloat ligh1_position[] = { 0.0, 19.0, 16.0, 1.0};
     glLightfv(GL_LIGHT0, GL_POSITION, ligh1_position);
 
     GLfloat light2_position[] = { 0.0, 19.0, -16.0, 1.0};
     glLightfv(GL_LIGHT1, GL_POSITION, light2_position);
 
+    GLfloat proj_diffuse[] = { movieFactor, movieFactor, movieFactor, 1.0 };
+    GLfloat proj_ambient[] = { 0.2f * movieFactor, 0.2f * movieFactor, 0.2f * movieFactor, 1.0 };
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, proj_diffuse);
+    glLightfv(GL_LIGHT2, GL_SPECULAR, proj_diffuse);
+    glLightfv(GL_LIGHT2, GL_AMBIENT, proj_ambient);
+
     GLfloat proj_pos[] = { 0.0, 20, 12.0, 1.0 };
     glLightfv(GL_LIGHT2, GL_POSITION, proj_pos);
     GLfloat proj_dir[] = { 0.0, -0.315, -0.949 };
     glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, proj_dir);
+
+    GLfloat step_color[] = { 0.0, 0.0, movieFactor, 1.0 };
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, step_color);
+    glLightfv(GL_LIGHT3, GL_SPECULAR, step_color);
+    glLightfv(GL_LIGHT4, GL_DIFFUSE, step_color);
+    glLightfv(GL_LIGHT4, GL_SPECULAR, step_color);
 
     GLfloat step1_position[] = { -14.0, 1.0, -4.0, 1.0};
     glLightfv(GL_LIGHT3, GL_POSITION, step1_position);
@@ -217,19 +273,10 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'l':
             screenOn = !screenOn;
-            if(screenOn){
-                glDisable(GL_LIGHT0); 
-                glDisable(GL_LIGHT1); 
-                glEnable(GL_LIGHT2);
-                glEnable(GL_LIGHT3);
-                glEnable(GL_LIGHT4);
-            } else {
-                glEnable(GL_LIGHT0);
-                glEnable(GL_LIGHT1);
-                glDisable(GL_LIGHT2);
-                glDisable(GL_LIGHT3);
-                glDisable(GL_LIGHT4);
-            };
+            if(!lightTransitioning) {
+                lightTransitioning = true;
+                glutTimerFunc(16, animateLights, 0);
+            }
             break;
         case 'p':
             eating = !eating;
@@ -239,6 +286,9 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'S':
             drinking = !drinking;
+            if(drinking) {
+                glutTimerFunc(16, animateSodaPerson, 1);
+            }
             break;
         case 27:
             exit(0);

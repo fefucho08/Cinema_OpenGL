@@ -12,6 +12,9 @@ extern bool drinking;
 int armDirection = 1;
 float armRotation = 0.0;
 
+int sodaArmDirection = 1;
+float sodaArmRotation = 0.0;
+
 void createLevels(){
     GLfloat color_diffuse[]    = { 0.3, 0.3, 0.3, 1.0 };
     GLfloat color_specular[] = { 0.2, 0.2, 0.2, 0.2 };
@@ -661,6 +664,24 @@ void animatePerson(int value) {
     }
 }
 
+void animateSodaPerson(int value) {
+    if(drinking) {
+        if(sodaArmRotation >= 50.0 && sodaArmDirection > 0) {
+            sodaArmDirection = -1;
+        } else if(sodaArmRotation <= 0.0 && sodaArmDirection < 0) {
+            sodaArmDirection = 1;
+        }
+        
+        sodaArmRotation += 0.5 * sodaArmDirection;
+        
+        if(sodaArmRotation > 50.0) sodaArmRotation = 50.0;
+        if(sodaArmRotation < 0.0) sodaArmRotation = 0.0;
+
+        glutPostRedisplay();
+        glutTimerFunc(16, animateSodaPerson, 1);
+    }
+}
+
 void createPopcornPerson() {
     GLfloat body_diffuse[]    = { 0.0, 0.0, 1.0, 1.0 };
     GLfloat body_specular[] = { 0.2, 0.2, 0.2, 0.2 };
@@ -884,8 +905,9 @@ void createSoda() {
     glPushMatrix();
         glTranslatef(0.5, 1.75, 1.0);
         if(drinking) {
-            glTranslatef(-0.4, 1.0, 0.3);
-            glRotatef(-30, 1.0, 0.0, 0.0);
+            float t = sodaArmRotation / 50.0;
+            glTranslatef(-0.4 * t, 1.0 * t, 0.3 * t);
+            glRotatef(-30 * t, 1.0, 0.0, 0.0);
         }
         glRotatef(-90, 1.0, 0.0, 0.0);
             glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, soda_diffuse);
@@ -985,7 +1007,7 @@ void createSodaPerson() {
     //braco esquerdo
     glPushMatrix();
         glTranslatef(0.90, 0.5, 0.0);
-        if(drinking) glRotatef(-50, 1.0, 0.0, 0.0);
+        if(drinking) glRotatef(-sodaArmRotation, 1.0, 0.0, 0.0);
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, body_diffuse);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, body_specular);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, body_shininess);
@@ -1007,7 +1029,7 @@ void createSodaPerson() {
 
         //antebraco
         glPushMatrix();
-            if(drinking) glRotatef(-50.0, 0.0, 1.0, 0.0);
+            if(drinking) glRotatef(-15.0 - 35.0 * (sodaArmRotation / 50.0), 0.0, 1.0, 0.0);
             else glRotatef(-15.0, 0.0, 1.0, 0.0);
             glPushMatrix();
                 glTranslatef(0.0, -1.0, 0.0);
