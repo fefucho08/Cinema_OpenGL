@@ -683,7 +683,7 @@ void animateSodaPerson(int value) {
 }
 
 void createPopcornPerson() {
-    GLfloat body_diffuse[]    = { 0.0, 0.0, 1.0, 1.0 };
+    GLfloat body_diffuse[]    = { 0.23, 0.28, 0.58, 1.0 };
     GLfloat body_specular[] = { 0.2, 0.2, 0.2, 0.2 };
     GLfloat body_shininess[]    = { 50.0 };
     
@@ -798,7 +798,7 @@ void createPopcornPerson() {
     glPushMatrix();
         glTranslatef(-0.375, -0.95, 0.5);
         
-        GLfloat leg_diffuse[]    = { 1.0, 0.0, 1.0, 1.0 };
+        GLfloat leg_diffuse[]    = { 1.0, 1.0, 1.0, 1.0 };
         GLfloat leg_specular[] = { 0.2, 0.2, 0.2, 0.2 };
         GLfloat leg_shininess[]    = { 50.0 };
         
@@ -932,15 +932,15 @@ void createSoda() {
 }
 
 void createSodaPerson() {
-    GLfloat body_diffuse[]    = { 0.0, 0.0, 1.0, 1.0 };
+    GLfloat body_diffuse[]    = { 0.15, 0.28, 0.10, 1.0 };
     GLfloat body_specular[]   = { 0.2, 0.2, 0.2, 0.2 };
     GLfloat body_shininess[]  = { 50.0 };
 
-    GLfloat skin_diffuse[]    = { 0.89, 0.69, 0.52, 1.0 };
+    GLfloat skin_diffuse[]    = { 0.46, 0.30, 0.23, 1.0 };
     GLfloat skin_specular[]   = { 0.2, 0.2, 0.2, 0.2 };
     GLfloat skin_shininess[]  = { 50.0 };
 
-    GLfloat leg_diffuse[]     = { 1.0, 0.0, 1.0, 1.0 };
+    GLfloat leg_diffuse[]     = { 0.06, 0.13, 0.35, 1.0 };
     GLfloat leg_specular[]    = { 0.2, 0.2, 0.2, 0.2 };
     GLfloat leg_shininess[]   = { 50.0 };
 
