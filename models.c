@@ -654,7 +654,7 @@ void animatePerson(int value) {
             armDirection = 1;
         }
         
-        armRotation += 1.0 * armDirection;
+        armRotation += 0.5 * armDirection;
         
         if(armRotation > 45.0) armRotation = 45.0;
         if(armRotation < 0.0) armRotation = 0.0;
