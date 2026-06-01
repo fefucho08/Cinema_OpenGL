@@ -12,8 +12,8 @@ void createDoor();
 void createRoom();
 void createLights();
 void createProjector();
-void createPerson();
-void createPopcornBucket();
+void createPopcornPerson();
+void createSodaPerson();
 void animatePerson(int value);
 
 #endif

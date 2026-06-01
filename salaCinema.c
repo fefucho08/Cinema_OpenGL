@@ -18,6 +18,7 @@ static float posZ = 0.0;
 static float posY = 0.0;
 bool screenOn = false;
 bool eating = false;
+bool drinking = false;
 
 bool seatOccupied[4][6] = {
     {false, true, false, false, false, true},
@@ -128,8 +129,10 @@ void display() {
             glTranslatef(seatX, 0.3 + seatY, seatZ);
             glRotatef(180, 0.0, 1.0, 0.0);
             if(seatOccupied[i][j]) {
-                createPerson();
-                createPopcornBucket();
+                createPopcornPerson();
+            }
+            if(i == 1 && j == 1) {
+                createSodaPerson();
             }
             createSeat();
             glPopMatrix();
@@ -233,6 +236,9 @@ void keyboard(unsigned char key, int x, int y) {
             if(eating) {
                 glutTimerFunc(16, animatePerson, 1);
             }
+            break;
+        case 'S':
+            drinking = !drinking;
             break;
         case 27:
             exit(0);
