@@ -14,7 +14,7 @@ void createLights();
 void createProjector();
 void createPopcornPerson();
 void createSodaPerson();
-void animatePerson(int value);
+void animatePopcornPerson(int value);
 void animateSodaPerson(int value);
 
 #endif

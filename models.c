@@ -646,7 +646,7 @@ void createPopcornBucket() {
     glPopMatrix();
 }
 
-void animatePerson(int value) {
+void animatePopcornPerson(int value) {
     if(eating) {
         if(armRotation >= 45.0 && armDirection > 0) {
             armDirection = -1;
@@ -660,7 +660,7 @@ void animatePerson(int value) {
         if(armRotation < 0.0) armRotation = 0.0;
 
         glutPostRedisplay();
-        glutTimerFunc(16, animatePerson, 1);
+        glutTimerFunc(16, animatePopcornPerson, 1);
     }
 }
 

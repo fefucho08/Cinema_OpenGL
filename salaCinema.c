@@ -320,7 +320,7 @@ void keyboard(unsigned char key, int x, int y) {
         case 'p':
             eating = !eating;
             if(eating) {
-                glutTimerFunc(16, animatePerson, 1);
+                glutTimerFunc(16, animatePopcornPerson, 1);
             }
             break;
         case 'S':
@@ -336,7 +336,7 @@ void keyboard(unsigned char key, int x, int y) {
             posX = 0.0;
             posY = 0.0;
             posZ = 10.0;
-
+            
             if(animatingCamera){
                 glutTimerFunc(16, animateCamera, 1);
             }
