@@ -10,15 +10,16 @@
 
 #define MOVIE_TEXTURE "shrek.sgi"
 
-static float fovAngle = 80.0f;
+static float fovAngle = 40.0f; // 80
 static float fAspect = 1.0f;
-static int rot = 0;
+static int rot = 180; // 0
 static float posX = 0.0;
-static float posZ = 0.0;
+static float posZ = 10.0; // 0
 static float posY = 0.0;
 bool screenOn = false;
 bool eating = false;
 bool drinking = false;
+bool animatingCamera = false;
 
 float lightTransition = 0.0f;
 bool lightTransitioning = false;
@@ -160,6 +161,7 @@ void displayLights() {
     glLightfv(GL_LIGHT4, GL_POSITION, step2_position);
 }
 
+
 void setCameraValues() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -168,6 +170,38 @@ void setCameraValues() {
     glLoadIdentity();
     gluLookAt(0.0 + posX, 12.0 + posY, 0.0 + posZ, 0.0 + posX, 12.0 + posY, -1.0 + posZ, 0.0, 1.0, 0.0);
 }
+
+void animateCamera(int value) {
+    if(animatingCamera) {
+        if(rot >= 0) rot -= 1;
+        if(fovAngle < 80.0) fovAngle += 0.5;
+        if(posZ >= 0) posZ -= 0.2;
+
+        if(rot < 0) {
+            rot = 0;
+        }
+        if(fovAngle >= 80.0) {
+            fovAngle = 80.0;
+        }
+        if(posZ < 0.0) {
+            posZ = 0.0;
+        }
+
+        if(rot == 0 && fovAngle == 80.0 && posZ == 0.0) {
+            animatingCamera = false;
+            screenOn = !screenOn;
+            
+            if(!lightTransitioning) {
+                lightTransitioning = true;
+                glutTimerFunc(16, animateLights, 0);
+            }
+        }
+
+        setCameraValues();
+        glutPostRedisplay();
+        glutTimerFunc(16, animateCamera, 1);
+    }
+} 
 
 void display() {
 
@@ -294,6 +328,19 @@ void keyboard(unsigned char key, int x, int y) {
             if(drinking) {
                 glutTimerFunc(16, animateSodaPerson, 1);
             }
+            break;
+        case 'c':
+            animatingCamera = !animatingCamera;
+            fovAngle = 40.0f;
+            rot = 180;
+            posX = 0.0;
+            posY = 0.0;
+            posZ = 10.0;
+
+            if(animatingCamera){
+                glutTimerFunc(16, animateCamera, 1);
+            }
+
             break;
         case 27:
             exit(0);
